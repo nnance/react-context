@@ -4,36 +4,38 @@ export type User = {
     name: string
 }
 
-type Action =
-  | { type: 'login', user: User }
-
-export type UserState = {
-    user: User
-    dispatch: React.Dispatch<Action>
+export type Session = {
+    isLoggedIn: boolean
+    user?: User
 }
+
+type Action =
+    | { type: 'logout' }
+    | { type: 'login', user: User }
 
 // Signed-in user context
-export const UserContext = React.createContext<UserState>({
-    user: {
-        name: 'Guest',
-    },
-    dispatch: () => {}
+export const UserContext = React.createContext({
+    session: { isLoggedIn: false },
+    dispatch: (action: Action) => {}
 });
 
-const reducer = (state: User, action: Action): User => {
+const reducer = (state: Session, action: Action): Session => {
     switch (action.type) {
-        case 'login':
-          return action.user
-      }
+        case 'logout': return {
+            isLoggedIn: false
+        }
+        case 'login': return {
+            isLoggedIn: true,
+            user: action.user,
+        }
+    }
 }
 
-export const useUserState = (): UserState => {
-    const [state, dispatch] = React.useReducer(reducer, {
-        name: "Guest"
-    });
+export const useUserState = () => {
+    const [state, dispatch] = React.useReducer(reducer, { isLoggedIn: false });
 
     return {
-        user: state,
+        session: state,
         dispatch,
     }
 }

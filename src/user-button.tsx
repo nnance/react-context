@@ -7,13 +7,23 @@ function UserButton() {
       <ThemeContext.Consumer>
         {({theme}) => (
             <UserContext.Consumer>
-                {({user, dispatch}) => (
-                    <button
-                        onClick={event => dispatch({type: "login", user: {name: "Test User"}})}
-                        style={{backgroundColor: theme.background}}>
-                        Login Test User
-                    </button>
-                )}
+                {({session, dispatch}) => {
+                    if (!session.isLoggedIn) {
+                        return (
+                            <button
+                                onClick={() => dispatch({type: "login", user: {name: "Test User"}})}>
+                                Login Test User
+                            </button>
+                        )
+                    } else {
+                        return (
+                            <button
+                                onClick={() => dispatch({type: "logout"})}>
+                                Log Out
+                            </button>
+                        )
+                    }
+                }}
             </UserContext.Consumer>
         )}
       </ThemeContext.Consumer>
