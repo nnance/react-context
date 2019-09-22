@@ -1,5 +1,6 @@
 {
   "name": "react-context",
+  "description": "Example React Context and Hooks for state management without Redux",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
