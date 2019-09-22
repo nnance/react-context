@@ -1,10 +1,7 @@
 import React from 'react';
 import { ThemeContext, themes } from './theme-context';
 import ThemedButton from './themed-button';
-
-type ToolbarProps = {
-  changeTheme: () => void
-}
+import UserStatus from './user-status';
 
 type AppState = {
   toggleTheme: () => void
@@ -49,6 +46,7 @@ function Content() {
   return (
     <div>
       <ThemedButton />
+      <UserStatus />
     </div>
   );
 }
