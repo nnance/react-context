@@ -6,16 +6,8 @@ type ToolbarProps = {
   changeTheme: () => void
 }
 
-// An intermediate component that uses the ThemedButton
-function Toolbar(props: ToolbarProps) {
-  return (
-    <ThemedButton onClick={props.changeTheme}>
-      Change Theme
-    </ThemedButton>
-  );
-}
-
 type AppState = {
+  toggleTheme: () => void
   theme: {
     foreground: string
     background: string
@@ -25,8 +17,12 @@ type AppState = {
 class App extends React.Component<any, AppState>{
   constructor(props: any) {
     super(props);
+
+    // State also contains the updater function so it will
+    // be passed down into the context provider
     this.state = {
       theme: themes.light,
+      toggleTheme: this.toggleTheme.bind(this),
     };
   }
 
@@ -40,20 +36,21 @@ class App extends React.Component<any, AppState>{
   }
 
   render() {
-    // The ThemedButton button inside the ThemeProvider
-    // uses the theme from state while the one outside uses
-    // the default dark theme
+    // The entire state is passed to the provider
     return (
-      <div>
-        <ThemeContext.Provider value={this.state.theme}>
-          <Toolbar changeTheme={this.toggleTheme.bind(this)} />
-        </ThemeContext.Provider>
-        <div>
-          <ThemedButton>Outside the context</ThemedButton>
-        </div>
-      </div>
+      <ThemeContext.Provider value={this.state}>
+        <Content />
+      </ThemeContext.Provider>
     );
   }
+}
+
+function Content() {
+  return (
+    <div>
+      <ThemedButton />
+    </div>
+  );
 }
 
 export default App;
