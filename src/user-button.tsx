@@ -2,18 +2,17 @@ import React from "react";
 import { ThemeContext } from './theme-context';
 import { UserContext } from './user-context';
 
-function UserStatus() {
-    // The Theme Toggler Button receives not only the theme
-    // but also a toggleTheme function from the context
+function UserButton() {
     return (
       <ThemeContext.Consumer>
         {({theme}) => (
             <UserContext.Consumer>
-                {({user}) => (
-                    <div
+                {({user, dispatch}) => (
+                    <button
+                        onClick={event => dispatch({type: "login", user: {name: "Test User"}})}
                         style={{backgroundColor: theme.background}}>
-                        Logged In: {user.name}
-                    </div>
+                        Login Test User
+                    </button>
                 )}
             </UserContext.Consumer>
         )}
@@ -21,4 +20,4 @@ function UserStatus() {
     );
   }
   
-  export default UserStatus;
+  export default UserButton;

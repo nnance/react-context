@@ -16,7 +16,7 @@ export const ThemeContext = React.createContext({
     toggleTheme: () => { },
 });
 
-export const useTheme = () => {
+export const useThemeState = () => {
 
     const toggleTheme = () => {
         setState(state => ({
