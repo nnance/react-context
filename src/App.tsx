@@ -1,26 +1,59 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ThemeContext, themes } from './theme-context';
+import ThemedButton from './themed-button';
 
-const App: React.FC = () => {
+type ToolbarProps = {
+  changeTheme: () => void
+}
+
+// An intermediate component that uses the ThemedButton
+function Toolbar(props: ToolbarProps) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemedButton onClick={props.changeTheme}>
+      Change Theme
+    </ThemedButton>
   );
+}
+
+type AppState = {
+  theme: {
+    foreground: string
+    background: string
+  }
+}
+
+class App extends React.Component<any, AppState>{
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      theme: themes.light,
+    };
+  }
+
+  toggleTheme() {
+    this.setState(state => ({
+      theme:
+        state.theme === themes.dark
+          ? themes.light
+          : themes.dark,
+    }));
+  }
+
+  render() {
+    // The ThemedButton button inside the ThemeProvider
+    // uses the theme from state while the one outside uses
+    // the default dark theme
+    return (
+      <div>
+        <ThemeContext.Provider value={this.state.theme}>
+          <Toolbar changeTheme={this.toggleTheme.bind(this)} />
+        </ThemeContext.Provider>
+        <div>
+          <ThemedButton>Outside the context</ThemedButton>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
