@@ -1,12 +1,11 @@
-import React from 'react';
-import { ThemeContext, useThemeState } from './theme-context';
-import ThemedButton from './themed-button';
-import UserStatus from './user-status';
+import React from "react";
+import { ThemeContext, useThemeState } from "./theme-context";
+import ThemedButton from "./themed-button";
 import UserButton from "./user-button";
-import { useUserState, UserContext } from './user-context';
+import { UserContext, useUserState } from "./user-context";
+import UserStatus from "./user-status";
 
 const App: React.FC = () => {
-
   const themeState = useThemeState();
   const userState = useUserState();
 
@@ -18,7 +17,7 @@ const App: React.FC = () => {
         <UserButton />
       </UserContext.Provider>
     </ThemeContext.Provider>
-  )
-}
+  );
+};
 
 export default App;

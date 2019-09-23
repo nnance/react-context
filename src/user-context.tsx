@@ -1,41 +1,47 @@
 import React from "react";
 
-export type User = {
-    name: string
+export interface IUser {
+  name: string;
 }
 
-export type Session = {
-    isLoggedIn: boolean
-    user?: User
+export interface ISession {
+  isLoggedIn: boolean;
+  user?: IUser;
 }
 
-type Action =
-    | { type: 'logout' }
-    | { type: 'login', user: User }
+export type ActionDispatch = (action: Action) => void;
+
+export interface IUserContext {
+  dispatch?: ActionDispatch;
+  session: ISession;
+}
+
+type Action = { type: "logout" } | { type: "login"; user: IUser };
 
 // Signed-in user context
-export const UserContext = React.createContext({
-    session: { isLoggedIn: false },
-    dispatch: (action: Action) => {}
+export const UserContext = React.createContext<IUserContext>({
+  session: { isLoggedIn: false }
 });
 
-const reducer = (state: Session, action: Action): Session => {
-    switch (action.type) {
-        case 'logout': return {
-            isLoggedIn: false
-        }
-        case 'login': return {
-            isLoggedIn: true,
-            user: action.user,
-        }
-    }
-}
+const reducer = (state: ISession, action: Action): ISession => {
+  switch (action.type) {
+    case "logout":
+      return {
+        isLoggedIn: false
+      };
+    case "login":
+      return {
+        isLoggedIn: true,
+        user: action.user
+      };
+  }
+};
 
-export const useUserState = () => {
-    const [state, dispatch] = React.useReducer(reducer, { isLoggedIn: false });
+export const useUserState = (): IUserContext => {
+  const [state, dispatch] = React.useReducer(reducer, { isLoggedIn: false });
 
-    return {
-        session: state,
-        dispatch,
-    }
-}
+  return {
+    dispatch,
+    session: state
+  };
+};
