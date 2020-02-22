@@ -7,10 +7,7 @@ function ThemedButton() {
   return (
     <ThemeContext.Consumer>
       {({ theme, toggleTheme }) => (
-        <button
-          onClick={toggleTheme}
-          style={{ backgroundColor: theme.background }}
-        >
+        <button onClick={toggleTheme} style={theme}>
           Toggle Theme
         </button>
       )}

@@ -19,7 +19,7 @@ function UserStatus() {
         <UserContext.Consumer>
           {({ session }) => {
             return (
-              <div style={{ backgroundColor: theme.background }}>
+              <div style={theme}>
                 <Status session={session} />
               </div>
             );
