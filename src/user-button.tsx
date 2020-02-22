@@ -8,7 +8,7 @@ function UserButton() {
       ? () => dispatch({ type: "login", user: { name: "Test User" } })
       : dispatch;
 
-  const handleLogout = (dispatch: ActionDispatch | undefined) => () =>
+  const handleLogout = (dispatch: ActionDispatch | undefined) =>
     dispatch ? () => dispatch({ type: "logout" }) : dispatch;
 
   return (
