@@ -11,10 +11,11 @@ export const themes = {
   }
 };
 
+type ThemeToggle = () => void;
+
 export const ThemeContext = React.createContext({
   theme: themes.dark,
-  // tslint:disable-next-line:no-empty
-  toggleTheme: () => {}
+  toggleTheme: (() => undefined) as ThemeToggle
 });
 
 export const useThemeState = () => {

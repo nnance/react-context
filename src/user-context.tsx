@@ -11,17 +11,15 @@ export interface ISession {
 
 export type ActionDispatch = (action: Action) => void;
 
-export interface IUserContext {
-  dispatch?: ActionDispatch;
-  session: ISession;
-}
+export type UserContext = [ISession, ActionDispatch];
 
 type Action = { type: "logout" } | { type: "login"; user: IUser };
 
 // Signed-in user context
-export const UserContext = React.createContext<IUserContext>({
-  session: { isLoggedIn: false }
-});
+export const UserContext = React.createContext<UserContext>([
+  { isLoggedIn: false },
+  () => undefined
+]);
 
 const reducer = (state: ISession, action: Action): ISession => {
   switch (action.type) {
@@ -37,11 +35,6 @@ const reducer = (state: ISession, action: Action): ISession => {
   }
 };
 
-export const useUserState = (): IUserContext => {
-  const [state, dispatch] = React.useReducer(reducer, { isLoggedIn: false });
-
-  return {
-    dispatch,
-    session: state
-  };
-};
+export const useUserState = (
+  initialState: ISession = { isLoggedIn: false }
+): UserContext => React.useReducer(reducer, initialState);
